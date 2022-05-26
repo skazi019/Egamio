@@ -1,0 +1,36 @@
+<div class="flex flex-col w-screen items-center my-2">
+    {% for post in all_posts %}
+    <div
+        class="flex flex-col w-100 md:w-96 h-auto md:my-2 pb-2 justify-center border-y first:border-t-0 last:border-b-0 md:border md:rounded-md md:first:border-t md:last:border-b">
+        <div class="ml-4 h-14 flex flex-row items-center gap-2 py-8">
+            <img src="{{ post.author.profile_pic.url }}" class="w-10 rounded-full border-2 border-violet-500 p-0.5"
+                alt="">
+            <p>{{ post.author.user.username }}</p>
+        </div>
+        <img src="{{ post.get_post_image }}" alt="user-image" class="h-1/2 w-auto object-cover">
+
+        <div class="flex flex-row gap-4 ml-4 mt-4 h-6 items-center">
+
+            {% include 'like_button.html' %}
+
+            <!-- comment button -->
+            <button>
+                <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24"
+                    stroke="currentColor" stroke-width="2">
+                    <path stroke-linecap="round" stroke-linejoin="round"
+                        d="M7 8h10M7 12h4m1 8l-4-4H5a2 2 0 01-2-2V6a2 2 0 012-2h14a2 2 0 012 2v8a2 2 0 01-2 2h-3l-4 4z" />
+                </svg>
+            </button>
+        </div>
+        <div class="ml-4">
+            {% include 'likes.html' %}
+        </div>
+        <div class="ml-4 items-center">
+            <span class="font-medium">{{ post.author.user.username }} </span>{{ post.post_caption }}
+        </div>
+        <div class="ml-4">
+            {% include 'comments.html' %}
+        </div>
+    </div>
+    {% endfor %}
+</div>

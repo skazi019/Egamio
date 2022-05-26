@@ -1,0 +1,7 @@
+<div id="likes-section-{{post.pk}}">
+    <button>{{ post.number_of_likes}}
+        Like{{ post.number_of_likes|pluralize }}</button>
+    <!-- {% for users in post.post_likes.all %}
+    <div class="">{{ users.username }}</div>
+    {% endfor %} -->
+</div>

@@ -1,0 +1,17 @@
+<!-- TODO: wrap comments in a modal which will open when comments icon clicked -->
+<div id="comments-section">
+    <button>
+        {% if post.number_of_comments > 0 %}
+        View all {{ post.number_of_comments }}
+        Comment{{ post.number_of_comments|pluralize }}</button>
+    {% else %}
+    Add a Comment...
+    {% endif %}
+    {% for com in comments %}
+    {% if com.post_id.pk == post.pk %}
+    <div class="hidden">
+        <span class="font-semibold">{{com.user_id}}</span> {{ com.comment }}
+    </div>
+    {% endif %}
+    {% endfor %}
+</div>
