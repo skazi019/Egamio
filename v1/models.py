@@ -64,7 +64,7 @@ class Posts(models.Model):
         return self.post_likes.count()
 
     # Below list created to color the like button
-    # This list gets all the usernames of the users who have liked the post
+    # Gives out a list of user objects who have liked the post
     # Using this for coloring the like button: if user is present in this list
     # then make the like button red else empty
     @property

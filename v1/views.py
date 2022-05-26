@@ -31,10 +31,10 @@ def handle_like(request, pk):
     )  # returns profile object for the current user
     current_user = (
         profile.user
-    )  # getting the user details from the auth user model linked to profile model
+    )  # getting the user details from the auth user model linked to profile model by one to one relation
     users_liked_post = [
         user.user for user in post.post_likes.all()
-    ]  # post.post_likes.all() gives list of profiles of all users who have liked the post
+    ]  # post.post_likes.all() gives list of profiles of all users who have liked the post hence extracting the user objects from the one to one linked auth user model
 
     if current_user in users_liked_post:
         post.post_likes.remove(profile)

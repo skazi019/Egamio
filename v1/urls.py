@@ -4,7 +4,6 @@ from .views import index, handle_like, get_post
 
 urlpatterns = [
     path("handle_like/<int:pk>/", handle_like, name="handle_like"),
-    # path("handle_dislike/<int:pk>/", handle_dislike, name="handle_dislike"),
     path("get_post/<int:pk>/", get_post, name="get_post"),
     path("", index, name="home"),
 ]
