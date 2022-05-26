@@ -6,7 +6,9 @@ from sorl.thumbnail import ImageField
 
 class Profile(models.Model):
 
-    user = models.OneToOneField(User, on_delete=models.CASCADE)
+    user = models.OneToOneField(
+        User, on_delete=models.CASCADE, related_name="auth_user"
+    )
     bio = models.CharField(max_length=700)
     profile_pic = ImageField(
         upload_to="profilepictures",
@@ -67,7 +69,7 @@ class Posts(models.Model):
     # then make the like button red else empty
     @property
     def users_who_liked(self):
-        return [profile.user.id for profile in self.post_likes.all()]
+        return [profile.user for profile in self.post_likes.all()]
 
     @property
     def get_post_image(self):

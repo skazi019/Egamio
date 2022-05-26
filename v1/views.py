@@ -9,8 +9,9 @@ def index(request):
         Posts.objects.all()
         .order_by("-post_date")
         .annotate(
-            number_of_comments=Count("post_comment")
-        )  # to get the number of comments on 1 post
+            number_of_comments=Count("post_comment"),
+            # to get the number of comments on individual post
+        )
     )
     comments = Comments.objects.all()
     return render(
@@ -25,17 +26,29 @@ def index(request):
 
 def handle_like(request, pk):
     post = Posts.objects.get(id=pk)
-    user = Profile.objects.get(id=request.user.pk)
-    users_liked_post = [user for user in post.post_likes.all()]
-    comments = post.post_comment.all()
-    if user in users_liked_post:
-        post.post_likes.remove(user)
+    profile = Profile.objects.get(
+        user=request.user
+    )  # returns profile object for the current user
+    current_user = (
+        profile.user
+    )  # getting the user details from the auth user model linked to profile model
+    users_liked_post = [
+        user.user for user in post.post_likes.all()
+    ]  # post.post_likes.all() gives list of profiles of all users who have liked the post
+
+    if current_user in users_liked_post:
+        post.post_likes.remove(profile)
+        user_action = "removed"
     else:
-        post.post_likes.add(user)
+        post.post_likes.add(profile)
+        user_action = "added"
     return render(
         request=request,
-        template_name="likes.html",
-        context={"post": post},
+        template_name="update_likes.html",
+        context={
+            "post": post,
+            "user_action": user_action,
+        },
     )
 
 
