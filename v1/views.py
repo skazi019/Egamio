@@ -57,7 +57,7 @@ def get_users_liked_list(request, pk):
     users = [user.user for user in post.post_likes.all()]
     return render(
         request=request,
-        template_name="users_liked_list.html",
+        template_name="modal_likes_list.html",
         context={
             "users": users,
             "post": post,
@@ -71,4 +71,30 @@ def remove_users_liked_list(request, pk):
         request=request,
         template_name="update_users_liked_list.html",
         context={"post": post},
+    )
+
+
+def get_comments_modal(request, pk):
+    comments = Comments.objects.filter(post_id=pk)
+    post = Posts.objects.get(id=pk)
+    return render(
+        request=request,
+        template_name="modal_comments.html",
+        context={
+            "comments": comments,
+            "post": post,
+        },
+    )
+
+
+def remove_comments_modal(request, pk):
+    comments = Comments.objects.filter(post_id=pk)
+    post = Posts.objects.get(id=pk)
+    return render(
+        request=request,
+        template_name="update_comments.html",
+        context={
+            "comments": comments,
+            "post": post,
+        },
     )
