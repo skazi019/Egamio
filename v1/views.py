@@ -52,5 +52,23 @@ def handle_like(request, pk):
     )
 
 
-def get_post(request, pk):
+def get_users_liked_list(request, pk):
     post = Posts.objects.get(id=pk)
+    users = [user.user for user in post.post_likes.all()]
+    return render(
+        request=request,
+        template_name="users_liked_list.html",
+        context={
+            "users": users,
+            "post": post,
+        },
+    )
+
+
+def remove_users_liked_list(request, pk):
+    post = Posts.objects.get(id=pk)
+    return render(
+        request=request,
+        template_name="update_users_liked_list.html",
+        context={"post": post},
+    )

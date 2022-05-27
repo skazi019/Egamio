@@ -1,11 +1,5 @@
-<!-- Updating the likes count and the liked user list -->
-<div id="likes-section-{{post.pk}}">
-    <button>{{ post.number_of_likes}}
-        Like{{ post.number_of_likes|pluralize }}</button>
-    <!-- {% for users in post.users_who_liked %}
-    <div class="block">{{users.pk}} | {{ users.username }}</div>
-    {% endfor %} -->
-</div>
+<!-- Updating Likes -->
+{% include 'likes.html' %}
 
 <!-- Updating the like button color -->
 {% if user_action == "added" %}

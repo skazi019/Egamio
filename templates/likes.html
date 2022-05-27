@@ -1,9 +1,6 @@
-<!-- If updating this file also update 'update_likes.html' -->
-
 <div id="likes-section-{{post.pk}}">
-    <button>{{ post.number_of_likes}}
-        Like{{ post.number_of_likes|pluralize }}</button>
-    <!-- {% for user in post.users_who_liked %}
-    <div class="block">{{user.pk}} | {{ user.username }}</div>
-    {% endfor %} -->
+    <button type="submit" hx-post="{% url 'get_users_liked_list' post.pk %}" hx-swap="outerHTML"
+        hx-target="#likes-overlay-{{post.pk}}">
+        {{ post.number_of_likes}} Like{{ post.number_of_likes|pluralize }}</button>
+    <div id="likes-overlay-{{post.pk}}"></div>
 </div>
