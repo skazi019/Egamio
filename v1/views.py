@@ -44,7 +44,7 @@ def handle_like(request, pk):
         user_action = "added"
     return render(
         request=request,
-        template_name="update_likes.html",
+        template_name="partials/update_likes.html",
         context={
             "post": post,
             "user_action": user_action,
@@ -57,7 +57,7 @@ def get_users_liked_list(request, pk):
     users = [user.user for user in post.post_likes.all()]
     return render(
         request=request,
-        template_name="modal_likes_list.html",
+        template_name="modals/modal_likes_list.html",
         context={
             "users": users,
             "post": post,
@@ -69,7 +69,7 @@ def remove_users_liked_list(request, pk):
     post = Posts.objects.get(id=pk)
     return render(
         request=request,
-        template_name="update_users_liked_list.html",
+        template_name="partials/update_users_liked_list.html",
         context={"post": post},
     )
 
@@ -79,7 +79,7 @@ def get_comments_modal(request, pk):
     post = Posts.objects.get(id=pk)
     return render(
         request=request,
-        template_name="modal_comments.html",
+        template_name="modals/modal_comments.html",
         context={
             "comments": comments,
             "post": post,
@@ -92,9 +92,24 @@ def remove_comments_modal(request, pk):
     post = Posts.objects.get(id=pk)
     return render(
         request=request,
-        template_name="update_comments.html",
+        template_name="partials/update_comments.html",
         context={
             "comments": comments,
             "post": post,
         },
     )
+
+
+def add_comment_to_post(request, pk):
+    if request.method == "POST":
+        user = request.user
+        user_profile = Profile.objects.get(user=user)
+        post = Posts.objects.get(pk=pk)
+        user_comment = request.POST.get("user-comment")
+        comment = Comments(user_id=user_profile, post_id=post, comment=user_comment)
+        comment.save()
+        return render(
+            request=request,
+            template_name="partials/add_comment_to_post.html",
+            context={"comment": comment},
+        )

@@ -7,6 +7,7 @@ from .views import (
     remove_users_liked_list,
     get_comments_modal,
     remove_comments_modal,
+    add_comment_to_post,
 )
 
 urlpatterns = [
@@ -20,6 +21,11 @@ urlpatterns = [
         "remove_users_liked_list/<int:pk>/",
         remove_users_liked_list,
         name="remove_users_liked_list",
+    ),
+    path(
+        "add_comment_to_post/<int:pk>/",
+        add_comment_to_post,
+        name="add_comment_to_post",
     ),
     path(
         "remove_comments_modal/<int:pk>/",
