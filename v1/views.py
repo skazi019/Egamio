@@ -15,7 +15,6 @@ def index(request):
     )
     comments = Comments.objects.all()
     user_profile = Profile.objects.get(user=request.user)
-    print(f"User profile: {user_profile}")
     return render(
         request=request,
         template_name="home.html",
