@@ -3,7 +3,7 @@
 
     <!-- Top section of the post -->
     <div
-        class="flex flex-col w-100 md:w-96 h-auto md:my-2 pb-2 justify-center border-y first:border-t-0 last:border-b-0 md:border md:rounded-md md:first:border-t md:last:border-b">
+        class="flex flex-col w-100 md:w-96 h-auto md:my-2 pb-2 justify-center border-y first:border-t-0 last:border-b-0 last:mb-10 md:last:mb-0 md:border md:rounded-md md:first:border-t md:last:border-b">
         <div class="ml-4 h-14 flex flex-row items-center gap-2 py-8">
             <img src="{{ post.author.profile_pic.url }}" class="w-10 rounded-full border-2 border-violet-500 p-0.5"
                 alt="">
@@ -53,7 +53,7 @@
         </div>
 
         <!-- Caption section -->
-        <div class="ml-4 items-center">
+        <div class="ml-4 items-center break-normal break-all">
             <span class="font-medium">{{ post.author.user.username }} </span>{{ post.post_caption }}
         </div>
 

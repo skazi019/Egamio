@@ -1,17 +1,17 @@
 <div id="comments-modal-{{post.pk}}"
     class="bg-black bg-opacity-50 fixed inset-0 flex flex-col justify-center items-center">
     <div class="max-w-sm max-h-sm overflow-scroll w-3/4 mx-4 rounded-md bg-white z-10">
-        <div class="flex flex-row items-center gap-2 px-4 py-2 bg-gray-400 border border-gray-400 rounded-t-md ">
+        <div class="flex flex-row items-center gap-2 px-4 py-2 bg-violet-400 rounded-t-md ">
 
             <!-- Header section -->
-            <div>
+            <div class="font-semibold">
                 <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4 cursor-pointer" fill="none" viewBox="0 0 24 24"
                     stroke="currentColor" stroke-width="2" hx-post="{% url 'remove_comments_modal' post.pk %}"
                     hx-target="#comments-modal-{{post.pk}}" hx-swap="outerHTML">
                     <path stroke-linecap="round" stroke-linejoin="round" d="M10 19l-7-7m0 0l7-7m-7 7h18" />
                 </svg>
             </div>
-            <div class="font-semibold justify-self-start">
+            <div class="font-semibold">
                 Comments
             </div>
         </div>
@@ -20,7 +20,7 @@
         <div id="user-comments-{{post.pk}}" class="divide-y max-h-96 overflow-scroll">
             {% if comments %}
             {% for comment in comments %}
-            <div class="p-2">{{comment.user_id.user.username}} | {{ comment.comment}}</div>
+            <div class="p-2 break-normal break-all">{{comment.user_id.user.username}} | {{ comment.comment}}</div>
             {% endfor %}
             {% else %}
             <div class="p-2 text-gray-300 font-light text-center italic">Be the first to comment</div>
@@ -29,13 +29,13 @@
 
         <!-- Input box for comment -->
         <div class="border-t">
-            <form class="flex flex-row justify-items items-center">
+            <form class="flex flex-row justify-items items-center mx-2 gap-2">
                 {% csrf_token %}
                 <!-- <span class="focus:outline-0 p-2 w-10/12 h-auto rounded-bl-md" id="user-comment"
                     contenteditable=""></span> -->
-                <input type="text" name="user-comment" class="focus:outline-0 p-2 w-10/12 h-auto rounded-bl-md">
+                <input type="text" name="user-comment" class="focus:outline-0 py-2 w-10/12 h-auto rounded-bl-md">
                 <button type="submit" hx-post="{% url 'add_comment_to_post' post.pk %}"
-                    hx-target="#user-comments-{{post.pk}}" hx-swap="beforeend" hx-include="#user-comment"
+                    hx-target="#user-comments-{{post.pk}}" hx-swap="beforeend"
                     class="block justify-self-end mx-1 text-blue-400 hover:text-blue-600">POST</button>
             </form>
         </div>

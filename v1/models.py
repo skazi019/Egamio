@@ -15,6 +15,7 @@ class Profile(models.Model):
         help_text="Image dimensions 96x96",
     )
 
+    # For displaying in the admin panel
     def display_username(self):
         return self.user.username
 

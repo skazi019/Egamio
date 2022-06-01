@@ -14,12 +14,15 @@ def index(request):
         )
     )
     comments = Comments.objects.all()
+    user_profile = Profile.objects.get(user=request.user)
+    print(f"User profile: {user_profile}")
     return render(
         request=request,
         template_name="home.html",
         context={
             "all_posts": all_posts,
             "comments": comments,
+            "user_profile": user_profile,
         },
     )
 
@@ -92,9 +95,8 @@ def remove_comments_modal(request, pk):
     post = Posts.objects.get(id=pk)
     return render(
         request=request,
-        template_name="partials/update_comments.html",
+        template_name="partials/remove_comments_modal.html",
         context={
-            "comments": comments,
             "post": post,
         },
     )
@@ -108,6 +110,7 @@ def add_comment_to_post(request, pk):
         user_comment = request.POST.get("user-comment")
         comment = Comments(user_id=user_profile, post_id=post, comment=user_comment)
         comment.save()
+        all_comments = Comments.objects.filter(post_id=pk)
         return render(
             request=request,
             template_name="partials/add_comment_to_post.html",
