@@ -8,9 +8,13 @@ from .views import (
     get_comments_modal,
     remove_comments_modal,
     add_comment_to_post,
+    add_post,
+    remove_post_modal,
 )
 
 urlpatterns = [
+    path("add_post/", add_post, name="add_post"),
+    path("remove_post_modal/", remove_post_modal, name="remove_post_modal"),
     path("handle_like/<int:pk>/", handle_like, name="handle_like"),
     path(
         "get_users_liked_list/<int:pk>/",

@@ -5,7 +5,7 @@
 
         <!-- Post a Photo -->
         <div class="justify-self-start p-0.5 hover:bg-gray-200 hover:rounded-md group">
-            <a href="#">
+            <a hx-get="{% url 'add_post' %}" hx-target="#post-modal" hx-swap="outerHTML" class="cursor-pointer">
                 <div class="flex flex-rows">
                     <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 relative" viewBox="0 0 20 20"
                         fill="currentColor">
@@ -69,7 +69,7 @@
                     </a>
                 </li>
                 <li>
-                    <a href="#" class="flex items-center px-3 py-3 hover:bg-gray-200">
+                    <a href="{% url 'logout' %}" class="flex items-center px-3 py-3 hover:bg-gray-200">
                         <svg fill="currentColor" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"
                             class="text-gray-600 h-4 w-4">
                             <path d="M0 0h24v24H0z" fill="none"></path>

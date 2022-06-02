@@ -1,9 +1,13 @@
+from re import template
 from django.shortcuts import render
 from django.db.models import Count
+from django.contrib.auth.decorators import login_required
 
 from .models import Profile, Posts, Followers, Comments, Replies
+from .forms import PostForm
 
 
+@login_required
 def index(request):
     all_posts = (
         Posts.objects.all()
@@ -26,6 +30,36 @@ def index(request):
     )
 
 
+@login_required
+def add_post(request):
+    if request.method == "POST":
+        form = PostForm(request.POST or None, request.FILES or None)
+        if form.is_valid():
+            form.save()
+
+        return render(
+            request=request, template_name="modals/post_added.html", context={}
+        )
+
+    form = PostForm()
+
+    return render(
+        request=request,
+        template_name="modals/add_post.html",
+        context={
+            "post_form": form,
+        },
+    )
+
+
+@login_required
+def remove_post_modal(request):
+    return render(
+        request=request, template_name="partials/remove_post_modal.html", context={}
+    )
+
+
+@login_required
 def handle_like(request, pk):
     post = Posts.objects.get(id=pk)
     profile = Profile.objects.get(
@@ -54,6 +88,7 @@ def handle_like(request, pk):
     )
 
 
+@login_required
 def get_users_liked_list(request, pk):
     post = Posts.objects.get(id=pk)
     users = [user.user for user in post.post_likes.all()]
@@ -67,6 +102,7 @@ def get_users_liked_list(request, pk):
     )
 
 
+@login_required
 def remove_users_liked_list(request, pk):
     post = Posts.objects.get(id=pk)
     return render(
@@ -76,6 +112,7 @@ def remove_users_liked_list(request, pk):
     )
 
 
+@login_required
 def get_comments_modal(request, pk):
     comments = Comments.objects.filter(post_id=pk)
     post = Posts.objects.get(id=pk)
@@ -89,6 +126,7 @@ def get_comments_modal(request, pk):
     )
 
 
+@login_required
 def remove_comments_modal(request, pk):
     comments = Comments.objects.filter(post_id=pk)
     post = Posts.objects.get(id=pk)
@@ -101,6 +139,7 @@ def remove_comments_modal(request, pk):
     )
 
 
+@login_required
 def add_comment_to_post(request, pk):
     if request.method == "POST":
         user = request.user
