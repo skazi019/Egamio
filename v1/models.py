@@ -29,14 +29,15 @@ class Followers(models.Model):
     class Meta:
         verbose_name = "Follower"
         verbose_name_plural = "Followers"
+        unique_together = ["user_id", "follower_id"]
 
     user_id = models.ForeignKey(
-        Profile, on_delete=models.CASCADE, related_name="%(class)s_user_id"
+        Profile, on_delete=models.CASCADE, related_name="profile_user"
     )
     follower_id = models.ForeignKey(
         Profile,
         on_delete=models.CASCADE,
-        related_name="%(class)s_follower_id",
+        related_name="followers",
         blank=False,
         null=True,
     )

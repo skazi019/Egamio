@@ -1,0 +1,5 @@
+<div class="grid grid-cols-2 gap-2 mt-4" id="profile-buttons">
+    <button class="border rounded text-base font-semibold  p-1">Message</button>
+    <button class="border rounded text-base font-semibold  p-1" hx-post="{% url 'handle_follow' request.user.pk %}"
+        hx-swap="outerHTML" hx-target="#profile-buttons">Following</button>
+</div>

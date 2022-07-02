@@ -4,8 +4,8 @@
     <div class="max-w-5xl mx-auto px-8 py-2 md:px-16 grid grid-cols-3 items-center justify-items">
 
         <!-- Post a Photo -->
-        <div class="justify-self-start p-0.5 hover:bg-gray-200 hover:rounded-md group">
-            <a hx-get="{% url 'add_post' %}" hx-target="#post-modal" hx-swap="outerHTML" class="cursor-pointer">
+        <div class="justify-self-start p-0.5 hover:bg-gray-200 hover:rounded-md group" x-data="{openAddPost: false}">
+            <button @click="openAddPost = !openAddPost" @keydown.escape="openAddPost = false" class="cursor-pointer">
                 <div class="flex flex-rows">
                     <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 relative" viewBox="0 0 20 20"
                         fill="currentColor">
@@ -22,12 +22,13 @@
                     class="absolute -bottom-8 bg-black text-white p-2 rounded-lg invisible translate-y-5 group-hover:visible duration-150 group-hover:translate-y-1">
                     Post a Photo!
                 </span>
-            </a>
+            </button>
+            {% include 'modals/add_post.html' %}
         </div>
 
         <!-- Primary Menu -->
         <div class="justify-self-center">
-            logo
+            <a href="{% url 'home' %}">Logo</a>
         </div>
 
 
@@ -48,7 +49,8 @@
             <ul x-show="isOpen" @click.away="isOpen = false"
                 class="absolute font-normal bg-white shadow overflow-hidden rounded w-44 border mt-2 top-8 right-0 z-20">
                 <li>
-                    <a href="#" class="flex items-center px-3 py-3 hover:bg-gray-200">
+                    <a href="{% url 'get_profile' request.user.pk %}"
+                        class="flex items-center px-3 py-3 hover:bg-gray-200">
                         <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4" fill="none" viewBox="0 0 24 24"
                             stroke="currentColor" stroke-width="2">
                             <path stroke-linecap="round" stroke-linejoin="round"

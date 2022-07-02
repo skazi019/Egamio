@@ -1,0 +1,8 @@
+<div class="grid mt-4" id="profile-buttons" hx-post="{% url 'handle_follow' request.user.pk %}" hx-swap="outerHTML"
+    hx-target="#profile-buttons">
+    <button class="rounded text-base font-semibold bg-blue-400 text-white p-1">Follow</button>
+</div>
+
+<div id="follower-count" class="flex flex-col items-center font-semibold" hx-swap-oob="true">
+    {{followers|length}} <span class="text-gray-400 text-sm font-normal">follower{{followers|length|pluralize}}</span>
+</div>

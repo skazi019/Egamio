@@ -9,12 +9,12 @@ from .views import (
     remove_comments_modal,
     add_comment_to_post,
     add_post,
-    remove_post_modal,
+    get_profile,
+    handle_follow,
 )
 
 urlpatterns = [
     path("add_post/", add_post, name="add_post"),
-    path("remove_post_modal/", remove_post_modal, name="remove_post_modal"),
     path("handle_like/<int:pk>/", handle_like, name="handle_like"),
     path(
         "get_users_liked_list/<int:pk>/",
@@ -40,6 +40,12 @@ urlpatterns = [
         "get_comments_modal/<int:pk>/",
         get_comments_modal,
         name="get_comments_modal",
+    ),
+    path("profile/<int:pk>/", get_profile, name="get_profile"),
+    path(
+        "handle_follow/<int:pk>/",
+        handle_follow,
+        name="handle_follow",
     ),
     path("", index, name="home"),
 ]

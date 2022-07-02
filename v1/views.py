@@ -19,6 +19,8 @@ def index(request):
     )
     comments = Comments.objects.all()
     user_profile = Profile.objects.get(user=request.user)
+    post_form = PostForm()
+
     return render(
         request=request,
         template_name="home.html",
@@ -26,37 +28,87 @@ def index(request):
             "all_posts": all_posts,
             "comments": comments,
             "user_profile": user_profile,
+            "post_form": post_form,
         },
     )
+
+
+@login_required
+def get_profile(request, pk):
+    user_profile = Profile.objects.get(user_id=pk)
+    all_posts = Posts.objects.filter(author=user_profile).order_by("-post_date")
+    followers = Followers.objects.filter(user_id=user_profile)
+    following = Followers.objects.filter(follower_id=user_profile)
+    follower_ids = [follower.follower_id.user.id for follower in followers]
+
+    return render(
+        request=request,
+        template_name="profile.html",
+        context={
+            "all_posts": all_posts,
+            "user_profile": user_profile,
+            "followers": followers,
+            "following": following,
+            "follower_ids": follower_ids,
+        },
+    )
+
+
+@login_required
+def handle_follow(request, pk):
+    user_profile = Profile.objects.get(id=pk)
+    current_user = Profile.objects.get(user_id=request.user.pk)
+    followers = Followers.objects.filter(user_id=user_profile)
+    follower_ids = [follower.follower_id.user.id for follower in followers]
+
+    if current_user.user.id in follower_ids:
+        # Update the div to show follow buton
+        current_user_follower = Followers.objects.get(
+            user_id=user_profile, follower_id=current_user
+        )
+        current_user_follower.delete()
+        return render(
+            request=request,
+            template_name="partials/profile_buttons_unfollow.html",
+            context={
+                "user_profile": user_profile,
+                "followers": followers,
+            },
+        )
+    else:
+        # Update the div to show message and following button
+        new_follower = Followers.objects.create(
+            user_id=user_profile, follower_id=current_user
+        )
+        new_follower.save()
+        return render(
+            request=request,
+            template_name="partials/profile_buttons_follow.html",
+            context={
+                "user_profile": user_profile,
+                "followers": followers,
+            },
+        )
+    pass
 
 
 @login_required
 def add_post(request):
+    user_profile = Profile.objects.get(user=request.user)
     if request.method == "POST":
-        form = PostForm(request.POST or None, request.FILES or None)
+        form = PostForm(request.POST, request.FILES)
+        print(f"Form data is: {form}")
         if form.is_valid():
-            form.save()
+            post = form.save(commit=False)
+            post.author = user_profile
+            print(f"Data is post: {post}")
+            post.save()
+        else:
+            print("Form is not valid!")
 
         return render(
             request=request, template_name="modals/post_added.html", context={}
         )
-
-    form = PostForm()
-
-    return render(
-        request=request,
-        template_name="modals/add_post.html",
-        context={
-            "post_form": form,
-        },
-    )
-
-
-@login_required
-def remove_post_modal(request):
-    return render(
-        request=request, template_name="partials/remove_post_modal.html", context={}
-    )
 
 
 @login_required
